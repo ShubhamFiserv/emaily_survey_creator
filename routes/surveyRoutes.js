@@ -8,6 +8,7 @@ const Mailer = require('../services/Mailer');
 const surveyTemplate = require('../services/emailTemplates/surveyTemplate');
 
 const Survey = mongoose.model('surveys');
+const SurveyBodyTemplate = mongoose.model('surveyBodyTemplates');
 
 module.exports = app => {
    
@@ -17,17 +18,20 @@ module.exports = app => {
      res.send(surveys);
    });
    
-   app.get('/api/surveys/:surveyId/:choice', (req, res) => {
-      res.send('Thanks for voting!');
+   app.get('/api/surveys/:surveyId/:choice/preview/:surveybody', (req, res) => {
+
+      const p = new Path('/api/surveys/:surveyId/:choice/preview/:surveybody');
+      //Change the domain to get whole URL for running the path
+      const match = p.test(new URL('http://localhost:3000'+ req.url).pathname);
+      res.redirect('/surveys/preview/'+ match.surveybody );
    });
 
    app.post('/api/surveys/webhooks', (req, res) => {
-      const p = new Path('/api/surveys/:surveyId/:choice');
+      const p = new Path('/api/surveys/:surveyId/:choice/preview/:surveybody');
       
-    _.chain(req.body)  
+   const events =  _.chain(req.body)  
       .map(({email, url}) => {
          const match = p.test(new URL(url).pathname);
-        
          if(match) {
             return {email, surveyId: match.surveyId,  choice: match.choice }
          }
@@ -47,6 +51,7 @@ module.exports = app => {
           }).exec()
        })
       .value();
+      console.log(events);
       res.send({});
    });
    
@@ -57,10 +62,16 @@ module.exports = app => {
       console.log('user1', req.user);
       const { title, subject, body, recipients }  = req.body;
       
+      console.log(body);
+
+      const surveyTemplateModel = await SurveyBodyTemplate.findOne({name: body});
+      
+      console.log(surveyTemplateModel);
+      
        const survey = new Survey({
           title,
           subject,
-          body,
+          body: surveyTemplateModel.id,
           recipients: recipients.split(',').map(email => ({email:  email.trim()})),
           _user: req.user.id,
           dateSent: Date.now()

@@ -7,12 +7,9 @@ module.exports = (survey) => {
                <div style="text-align: center;">
                  <h3>I'd like your input!</h3>
                  <p>Please answer the following question:</p>
-                 <p>${survey.body}</p>
+                 <p>Please fill this survey for review</p>
                  <div>
-                    <a href="${keys.redirectDomain}/api/surveys/${survey.id}/yes">Yes</a>  
-                 <div>
-                 <div>
-                    <a href="${keys.redirectDomain}/api/surveys/${survey.id}/no">No</a>  
+                    <a href="${keys.redirectDomain}/api/surveys/${survey.id}/yes/preview/${survey.body}">Click To Open This Survey</a>  
                  <div>
                </div>
             </body>

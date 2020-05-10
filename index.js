@@ -8,6 +8,7 @@ const bodyParser = require('body-parser');
 require('./models/User');
 require('./models/Survey');
 require('./services/passport');
+require('./models/SurveyBodyTemplate');
 
 const app = express();
 
@@ -27,6 +28,7 @@ mongoose.connect(keys.mongoURI,{useNewUrlParser: true});
 require('./routes/authRoutes')(app);
 require('./routes/billingRoutes')(app);
 require('./routes/surveyRoutes')(app);
+require('./routes/surveyBodyTemplateRoutes')(app);
 
 if(process.env.NODE_ENV === 'production'){
    // Express will serve up production assets

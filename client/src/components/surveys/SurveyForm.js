@@ -1,17 +1,22 @@
 import _ from 'lodash';
 import React, {Component} from 'react';
-import { reduxForm, Field } from 'redux-form'
+import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom';
-import SurveyField from './SurveyField'; 
+import SurveyField from './SurveyField';
+import SurveySelectField from './SurveySelectField';
 import validateEmails from '../../utils/validateEmails'
 import formFields from './formFields'
-
 class SurveyForm extends Component {
    renderFields(){
       return _.map(formFields, ({label, name}) => {
-         return (
-            <Field key={name} component={SurveyField} type="text" label={label} name={name}/>
-         );
+            if( name === 'body'){
+              return ( <div key="22">
+                 <div key="23">
+                    <Field key={name} label={label} name={name} component={SurveySelectField} />
+                 </div>
+              </div> );
+            } 
+            return ( <Field key={name} component={SurveyField} type="text" label={label} name={name} favoriteColorValue={this.props.favoriteColorValue}/> );
       });
    }
    
@@ -36,7 +41,7 @@ class SurveyForm extends Component {
 function validate(values) {
   const errors = {};
 
-   errors.emails = validateEmails(values.recipients || '');
+   errors.recipients = validateEmails(values.recipients || '');
    
   _.each(formFields, ({name})=>{
      if(!values[name]){
@@ -49,8 +54,10 @@ function validate(values) {
   return errors;
 }
 
-export default reduxForm({
+SurveyForm =  reduxForm({
    validate,
    form: 'surveyForm',
-   destroyOnUnmount: false
+   destroyOnUnmount: false,
 })(SurveyForm);
+
+export default SurveyForm;

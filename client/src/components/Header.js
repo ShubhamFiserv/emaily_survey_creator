@@ -14,6 +14,7 @@ class Header extends Component {
             );
          default:  
             return [
+               <li key="4"><Link to="/builder">Survey Builder</Link></li>,
                <li key="1"><Payments /></li>,
                <li key="3" style={{margin: '0 10px' }}>
                   Credits: {this.props.auth.credits}

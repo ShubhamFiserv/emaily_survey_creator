@@ -7,6 +7,8 @@ import Header from './Header';
 import Landing from './Landing';
 import Dashboard from './Dashboard';
 import SurveyNew from './surveys/SurveyNew';
+import SurveyBuilder from './survey/SurveyBuilder';
+import EmailySurveyPreview from "./survey/EmailySurveyPreview";
 
 
 class App extends Component {
@@ -22,8 +24,10 @@ class App extends Component {
                <div>
                   <Header/>
                   <Route path="/" exact component={Landing}/>
+                  <Route path="/builder" exact component={SurveyBuilder}/>
                   <Route exact path="/surveys" component={Dashboard}/>
-                  <Route path="/surveys/new" component={SurveyNew}/>
+                  <Route exact path="/surveys/preview/:id" component={EmailySurveyPreview}/>
+                  <Route exact path="/surveys/new" component={SurveyNew}/>
                </div>
             </BrowserRouter>
          </div>
