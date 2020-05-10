@@ -10,7 +10,7 @@ module.exports = (app) => {
       res.send(surveyTemplates);
    });
 
-   app.get('/api/surveyTemplate/:templateId', requireLogin, async (req, res) => {
+   app.get('/api/surveyTemplate/:templateId', async (req, res) => {
       console.log(req.params.templateId);
       const surveyTemplate = await SurveyBodyTemplate.findOne({_id: req.params.templateId});
       res.send(surveyTemplate.content);
