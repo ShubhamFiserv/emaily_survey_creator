@@ -19,11 +19,7 @@ module.exports = app => {
    });
    
    app.get('/api/surveys/:surveyId/:choice/preview/:surveybody', (req, res) => {
-
-      const p = new Path('/api/surveys/:surveyId/:choice/preview/:surveybody');
-      //Change the domain to get whole URL for running the path
-      const match = p.test(new URL('http://localhost:3000'+ req.url).pathname);
-      res.redirect('/surveys/preview/'+ match.surveybody );
+      res.redirect('/surveys/preview/'+ req.params.surveybody );
    });
 
    app.post('/api/surveys/webhooks', (req, res) => {
